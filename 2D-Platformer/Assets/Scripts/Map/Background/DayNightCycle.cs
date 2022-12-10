@@ -30,7 +30,7 @@ public class DayNightCycle : MonoBehaviour
     {
         totalTime = Time.timeSinceLevelLoad;
 
-        timeOfDay = totalTime % dayDurationInSeconds / dayDurationInSeconds * 0.5f;
+        timeOfDay = totalTime % dayDurationInSeconds / dayDurationInSeconds;
         
     }
 

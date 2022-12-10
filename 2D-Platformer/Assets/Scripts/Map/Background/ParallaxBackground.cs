@@ -4,10 +4,11 @@ using UnityEngine;
 
 public class ParallaxBackground : MonoBehaviour
 {
-    [SerializeField] float speed;
+    [SerializeField] float parallaxSpeed;
     [SerializeField] SpriteRenderer spriteRenderer;
     
     [SerializeField] bool scrollVertically;
+
 
     // Since all backgrounds should scroll horizontally, there is no need to have this variable
     // [SerializeField] bool scrollHorizontally;
@@ -31,10 +32,10 @@ public class ParallaxBackground : MonoBehaviour
     {
         Vector3 camPos = playerCamera.transform.position;
 
-        transform.position = new Vector3 (camPos.x * speed + Mathf.Floor(camPos.x / spriteSize.x) * spriteSize.x + spriteSize.x * 0.5f, transform.position.y);
+        transform.position = new Vector3 (camPos.x * parallaxSpeed + Mathf.Floor(camPos.x / spriteSize.x) * spriteSize.x + spriteSize.x * 0.5f, transform.position.y);
 
         if (scrollVertically)
-            transform.position = new Vector3(transform.position.x, camPos.y * speed + Mathf.Floor(camPos.y / spriteSize.y) * spriteSize.y + spriteSize.y * 0.5f);
+            transform.position = new Vector3(transform.position.x, camPos.y * parallaxSpeed + Mathf.Floor(camPos.y / spriteSize.y) * spriteSize.y + spriteSize.y * 0.5f);
     }
 
     private void OnValidate()

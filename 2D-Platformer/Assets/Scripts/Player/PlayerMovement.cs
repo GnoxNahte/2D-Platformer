@@ -68,7 +68,10 @@ public class PlayerMovement : MonoBehaviour
 
     private PlayerControlManager controls;
 
-    [Header("Debug Variables")]
+    private Rigidbody2D rb;
+
+    // Variables to track the state of the player's movement and input
+    [Header("Tracking Variables")]
 
     [SerializeField]
     [ReadOnly]
@@ -89,7 +92,8 @@ public class PlayerMovement : MonoBehaviour
     [ReadOnly]
     bool ifReleaseJumpAfterJumping;
 
-    [Header("Debug Variables 2")]
+    // Just for debug, can delete anytime
+    [Header("Debug Variables")]
 
     [SerializeField]
     [ReadOnly]
@@ -101,13 +105,6 @@ public class PlayerMovement : MonoBehaviour
     [SerializeField]
     [ReadOnly]
     float timeSinceLastJump;
-
-    // TODO (GnoxNahte): Remove this
-    // For testing only
-    [Range(0.01f, 1f)]
-    [SerializeField] float debugTimeScale = 1f;
-
-    private Rigidbody2D rb;
 
     private void Awake()
     {
@@ -122,8 +119,6 @@ public class PlayerMovement : MonoBehaviour
     }
     private void FixedUpdate()
     {
-        Time.timeScale = debugTimeScale;
-
         Vector2 inputDir = controls.MoveDir;
 
         // ===== Horizontal movement =====

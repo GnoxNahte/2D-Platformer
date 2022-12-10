@@ -17,9 +17,8 @@ public class DayNightBackgroundCycle : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        float dayOpacity = (Mathf.Sin(dayNightCycle.timeOfDay) + 1f) * 0.5f;
+        float dayOpacity = (Mathf.Sin(dayNightCycle.timeOfDay * Mathf.PI * 2f) + 1f) * 0.5f;
         daySprite.color = new Color(1f, 1f, 1f, dayOpacity);
         nightSprite.color = new Color(1f, 1f, 1f, 1f - dayOpacity);
-        print(1 - dayOpacity);
     }
 }
