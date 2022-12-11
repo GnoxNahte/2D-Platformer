@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Tilemaps;
 
+// Can be used to check what type the tile it is, then change vfx / sound / physics based on it (E.g. grass vs ice vs sand, etc)
 public class TileChecker : MonoBehaviour
 {
     public LayerMask LayerMask;
