@@ -13,47 +13,53 @@ using UnityEngine;
 
 public class ParallaxBackground : MonoBehaviour
 {
-    [SerializeField] float parallaxSpeed;
+    [SerializeField]
+    [Tooltip("0 = Sprite stays at original pos\n1 = Sprite follows camera")]
+    Vector2 parallaxSpeed;
     [SerializeField] SpriteRenderer spriteRenderer;
     
-    //[SerializeField] bool scrollVertically;
-
-    // Since all backgrounds should scroll horizontally, there is no need to have this variable
-    // [SerializeField] bool scrollHorizontally;
-
-    private Vector3 spriteSize;
+    private Vector2 spriteSize;
     private Camera playerCamera;
 
+    private Vector2 startOffset;
 
     private void Awake()
     {
         playerCamera = Camera.main;
 
-        if (spriteRenderer == null)
-            spriteRenderer = GetComponent<SpriteRenderer>();
+        OnValidate();
     }
 
     private void Start()
     {
         spriteSize = spriteRenderer.size / 5f;
+
+        startOffset = transform.position;
     }
 
     private void Update()
     {
-        Vector3 camPos = playerCamera.transform.position;
+        // Calculate object position using camera position and parallax speed
+        Vector2 pos = playerCamera.transform.position * parallaxSpeed;
 
-        float xPos = camPos.x * parallaxSpeed;
-        transform.position = new Vector3 (xPos % spriteSize.x + Mathf.Floor(xPos / spriteSize.x / parallaxSpeed) * spriteSize.x, transform.position.y);
-        
-        //if (scrollVertically)
-        //    transform.position = new Vector3(transform.position.x, camPos.y * parallaxSpeed + Mathf.Floor(camPos.y / spriteSize.y) * spriteSize.y + spriteSize.y * 0.5f);
+        // Calculate the tiling offset based on the position and sprite size
+        Vector2 tilingOffset = MathExtensions.Floor(pos / (spriteSize * parallaxSpeed + MathExtensions.Vector2Epsilon)) * spriteSize;
+
+        // If the position is negative, adjust the tiling offset
+        if (pos.x < 0)
+            tilingOffset.x += spriteSize.x;
+        if (pos.y < 0)
+            tilingOffset.y += spriteSize.y;
+
+        // Calculate the final position based on the tiling offset and start offset
+        transform.position = new Vector3(
+            pos.x % spriteSize.x + tilingOffset.x + startOffset.x,
+            pos.y % spriteSize.y + tilingOffset.y + startOffset.y);
     }
 
     private void OnValidate()
     {
         if (spriteRenderer == null)
-        {
             spriteRenderer = GetComponent<SpriteRenderer>();
-        }
     }
 }
